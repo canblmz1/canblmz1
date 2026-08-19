@@ -17,6 +17,8 @@ I like problems where the happy path is easy but the failure boundary is not: st
 - **Roo Code / Roomote** — responsibly reported an environment-configuration exposure issue that was publicly acknowledged in the v0.39.1 release notes.  
   [v0.39.1](https://github.com/RooCodeInc/Roomote/releases/tag/v0.39.1)
 
+[See the verified open-source contribution ledger →](CONTRIBUTIONS.md)
+
 ## Featured projects
 
 ### [RuleProbe](https://github.com/canblmz1/ruleProb)
