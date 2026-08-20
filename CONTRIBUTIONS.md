@@ -9,11 +9,17 @@ _Last verified: 2026-08-20._
 ### Vercel AI SDK — unsafe finish-reason tool execution
 
 - Reported: [vercel/ai#19063](https://github.com/vercel/ai/issues/19063)
-- Upstream fix: [vercel/ai#19066](https://github.com/vercel/ai/pull/19066)
-- Merged commit: [`a828527`](https://github.com/vercel/ai/commit/a8285273ef8b4b2c36cf3cb692706da7f40077d4)
-- Credit: `Co-authored-by: canblmz1`
+- AI SDK 7 fix: [vercel/ai#19066](https://github.com/vercel/ai/pull/19066)
+- AI SDK 6 backport: [vercel/ai#19120](https://github.com/vercel/ai/pull/19120)
+- AI SDK 5 backport: [vercel/ai#19121](https://github.com/vercel/ai/pull/19121)
+- v7 release: [`ai@7.0.70`](https://github.com/vercel/ai/releases/tag/ai%407.0.70)
+- Credit: `Co-authored-by: canblmz1` on the merged v7, v6, and v5 fix commits
 
-The report showed that valid side-effecting tool calls could still auto-execute when the model call ended with `length`, `error`, `content-filter`, or `other`. Vercel reproduced the behavior on current AI SDK branches and merged a core execution gate that only permits automatic tool execution for safe terminal reasons.
+The report showed that valid side-effecting tool calls could still auto-execute when the enclosing model call ended with `length`, `error`, `content-filter`, or `other`. Vercel classified the report as a high-confidence bug, independently reproduced it on AI SDK 7, then reproduced the same defect on the v6 and v5 release lines.
+
+The fixes introduce an explicit safe-finish-reason allowlist: automatic tool execution is permitted only after `stop` or `tool-calls`. For streaming paths, tool calls are deferred until the terminal finish reason is known instead of executing before that state is available.
+
+The v7 fix has been published publicly in `ai@7.0.70`. The v5 and v6 backport PRs are merged; this ledger does not claim specific published v5/v6 patch versions until those release versions are independently verified.
 
 ### Tugtainer — container update lifecycle hooks
 
