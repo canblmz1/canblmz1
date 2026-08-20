@@ -8,8 +8,8 @@ I like problems where the happy path is easy but the failure boundary is not: st
 
 ## Selected open-source work
 
-- **Vercel AI SDK** — reported an execution-integrity bug where valid tool calls could still auto-execute after unsafe model termination states. The issue was reproduced upstream and fixed; I was credited as a co-author on the merged fix.  
-  [Issue #19063](https://github.com/vercel/ai/issues/19063) · [Merged fix #19066](https://github.com/vercel/ai/pull/19066) · [Fix commit](https://github.com/vercel/ai/commit/a8285273ef8b4b2c36cf3cb692706da7f40077d4)
+- **Vercel AI SDK** — reported a core tool-execution integrity bug affecting AI SDK **v5, v6, and v7**. Vercel independently reproduced it across all three release lines, merged fixes/backports for each, and credited me as a co-author on the resulting fix commits. The v7 fix shipped publicly in **`ai@7.0.70`**.  
+  [Issue #19063](https://github.com/vercel/ai/issues/19063) · [v7 fix #19066](https://github.com/vercel/ai/pull/19066) · [v6 backport #19120](https://github.com/vercel/ai/pull/19120) · [v5 backport #19121](https://github.com/vercel/ai/pull/19121) · [`ai@7.0.70`](https://github.com/vercel/ai/releases/tag/ai%407.0.70)
 
 - **Tugtainer** — contributed the merged container update lifecycle hooks feature, covering guarded container exec, backend policy gates, rollback/update hooks, frontend controls, migration, and tests.  
   [PR #217](https://github.com/Quenary/tugtainer/pull/217)
