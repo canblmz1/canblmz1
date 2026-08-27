@@ -2,9 +2,18 @@
 
 A concise ledger of public upstream work, separated by **merged**, **acknowledged**, **open**, and **closed-unmerged** status so nothing is overstated.
 
-_Last verified: 2026-08-20._
+_Last verified: 2026-08-27._
 
 ## Merged upstream contributions
+
+### Atomic Agent — native tool-call execution integrity
+
+- Merged PR: [AtomicBot-ai/atomic-agent#144](https://github.com/AtomicBot-ai/atomic-agent/pull/144)
+- Merge commit: [`dcf77f180b0f66b8f2d5858afa212638237ac619`](https://github.com/AtomicBot-ai/atomic-agent/commit/dcf77f180b0f66b8f2d5858afa212638237ac619)
+
+The patch closes an execution-integrity failure mode in the native OpenAI-compatible tool path where malformed or ambiguously terminated `function.arguments` could still reach dispatch. Non-empty malformed arguments now fail instead of silently becoming `{}`, pending tool calls require a real terminal signal, Qwen-tagged calls share the same termination-safety decision as native calls, and an undelimited final SSE event is flushed and parsed at EOF.
+
+The upstream maintainer independently traced the implementation, found two blocking cross-path issues plus two smaller issues, and re-probed the corrected branch before merge. The final maintainer validation covered Qwen tagged calls, native bare EOF, terminal events and `[DONE]` without trailing blank lines, malformed final events, additional tool-argument deltas without a terminal signal, SSE comments, split multi-byte UTF-8, empty/[DONE]-only responses, and abort during a pending call. The patch was then merged onto current `main`.
 
 ### Vercel AI SDK — unsafe finish-reason tool execution
 
@@ -54,12 +63,6 @@ These entries are intentionally listed as **open**, not as merged contributions.
 - Status: **open**
 - Scope: recursive `readdir` Buffer encoding support across callback, sync, promises, and `withFileTypes` paths, with regression coverage.
 
-### Atomic Agent
-
-- [AtomicBot-ai/atomic-agent#144 — `fix(llm): fail closed on malformed native tool calls`](https://github.com/AtomicBot-ai/atomic-agent/pull/144)
-- Status: **open**
-- Scope: prevent malformed or ambiguously terminated native OpenAI-compatible tool calls from reaching execution; includes execution-level regression coverage through the real provider and step executor.
-
 ### Trendyol Baklava
 
 - [Trendyol/baklava#1220 — `fix(pagination): clean up resize listener on disconnect`](https://github.com/Trendyol/baklava/pull/1220)
@@ -71,6 +74,14 @@ These entries are intentionally listed as **open**, not as merged contributions.
 - [vercel/ai#18770 — `docs: gate jsonrepair on finishReason in the truncation cookbook`](https://github.com/vercel/ai/pull/18770)
 - Status: **open**
 - Scope: documents truncation as a different failure mode from malformed JSON and checks `finishReason` before attempting `jsonrepair` in the cookbook example.
+
+### Sandbase Harness — `prefix-safe-json` integration pilot
+
+- [sandbaseai/sandbase-harness#73 — `fix: gate confirmed tools on raw stream completion`](https://github.com/sandbaseai/sandbase-harness/pull/73)
+- Status: **open**
+- Dependency: exact `prefix-safe-json@0.4.2`
+- Scope: confirmation-required tool calls are persisted for later execution only when their real streamed argument lifecycle is complete, schema-valid, identity-consistent, and safely terminated.
+- Claim boundary: this is an **open integration pilot**, not an upstream adoption claim unless merged.
 
 ## How I approach upstream work
 
