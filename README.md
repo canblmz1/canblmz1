@@ -2,9 +2,9 @@
 
 # Can Bilmez
 
-### Backend Systems · Developer Tooling · Execution Safety
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=2800&pause=900&color=58A6FF&center=true&vCenter=true&repeat=true&width=820&height=45&lines=Backend+systems+%C2%B7+Developer+tooling;Fail-closed+LLM+tool+execution;Reproduce+%E2%86%92+red-team+%E2%86%92+ship+upstream" alt="Backend systems, developer tooling, and fail-closed execution safety" />
 
-**Reliability · Testing · Open Source · Fail-Closed Design**
+**Reliability · Testing · Open Source · Execution Integrity**
 
 I work on systems where **“valid-looking” is not the same as “safe to execute.”**
 
@@ -25,9 +25,25 @@ I work on systems where **“valid-looking” is not the same as “safe to exec
 
 | Project | Work | Outcome |
 |---|---|---|
+| **Atomic Agent** | Closed malformed / ambiguously terminated native tool-call execution paths across native OpenAI-compatible and Qwen-tagged flows | **Merged upstream** in [PR #144](https://github.com/AtomicBot-ai/atomic-agent/pull/144) as [`dcf77f1`](https://github.com/AtomicBot-ai/atomic-agent/commit/dcf77f180b0f66b8f2d5858afa212638237ac619) after maintainer re-probes |
 | **Vercel AI SDK** | Reported unsafe automatic tool execution after `length`, `error`, `content-filter`, and `other` terminal states | Reproduced across **v5, v6, v7**; fixes/backports merged on all three lines; co-author credit on the resulting fix commits; v7 shipped in **`ai@7.0.70`** |
 | **Tugtainer** | Implemented configurable container update / rollback lifecycle hooks across backend, executor, persistence, UI, docs, and tests | **Merged** upstream in [PR #217](https://github.com/Quenary/tugtainer/pull/217) |
 | **Roo Code / Roomote** | Responsibly reported an environment-configuration exposure issue | Publicly acknowledged in the **v0.39.1** release notes |
+
+### Atomic Agent — fail closed at the real dispatch boundary
+
+[`AtomicBot-ai/atomic-agent#144`](https://github.com/AtomicBot-ai/atomic-agent/pull/144) prevents truncated or malformed native tool-call arguments from silently becoming executable input.
+
+The final patch covers:
+
+- malformed non-empty `function.arguments` → parse failure, never silent `{}` fallback;
+- bare EOF with pending tool calls → fail closed unless a real terminal signal was observed;
+- Qwen tagged calls → same termination-safety decision as native calls;
+- final SSE events without a trailing blank line → flushed and parsed correctly at EOF;
+- parallel tool calls and stream-read failures → zero dispatch;
+- zero-argument calls and clean provider termination → preserved.
+
+The maintainer re-ran the original probes plus additional EOF/UTF-8/abort cases before merging the patch to `main`.
 
 ### Vercel AI SDK — report → reproduce → fix → backport → release
 
@@ -49,15 +65,15 @@ I work on systems where **“valid-looking” is not the same as “safe to exec
 
 **Fail-closed execution integrity for streamed LLM tool calls.**
 
-`0.0.1-alpha.4` is published on npm with a high-level AI SDK execution guard, provider terminal-state handling, schema validation, execution evidence, and explicit `execute / retry / reject` decisions.
+`0.4.2` is published on npm with provider terminal-state handling, incremental argument evidence, schema validation, identity correlation, one-shot execution decisions, and AI SDK execution guards.
 
 ```bash
-npm install prefix-safe-json@next
+npm install prefix-safe-json@0.4.2
 ```
 
-**Release validation:** 802 tests · 95.62% branch coverage · 88.18% mutation score · 11.1M+ fuzz property checks with zero invariant violations.
+The release path is independently auditable: the published npm tarball is reproducible byte-for-byte from the tagged source, SLSA provenance is verified against the exact package/version bundle npm authenticated, and the verifier fails closed when release identity cannot be established.
 
-`AI SDK v5/v6/v7` · `streaming JSON` · `tool calling` · `schema validation` · `fail closed`
+`AI SDK v5/v6/v7` · `streaming JSON` · `tool calling` · `schema validation` · `reproducible release` · `fail closed`
 
 ---
 
@@ -80,9 +96,9 @@ npm install prefix-safe-json@next
 ## Current upstream work
 
 - **Node.js** — [`nodejs/node#64954`](https://github.com/nodejs/node/pull/64954): recursive `readdir` with Buffer encoding across callback, sync, promises, and `withFileTypes` paths.
-- **Atomic Agent** — [`AtomicBot-ai/atomic-agent#144`](https://github.com/AtomicBot-ai/atomic-agent/pull/144): fail closed on malformed or ambiguously terminated native tool calls, with execution-level regression coverage.
 - **Trendyol Baklava** — [`Trendyol/baklava#1220`](https://github.com/Trendyol/baklava/pull/1220): fix a resize-listener reference leak in `bl-pagination` and prove cleanup with a regression test.
 - **Vercel AI SDK docs** — [`vercel/ai#18770`](https://github.com/vercel/ai/pull/18770): distinguish truncation from malformed JSON before `jsonrepair` in the cookbook flow.
+- **Sandbase Harness** — [`sandbaseai/sandbase-harness#73`](https://github.com/sandbaseai/sandbase-harness/pull/73): open `prefix-safe-json@0.4.2` integration pilot for confirmation-required tool execution; **not an adoption claim unless merged**.
 
 ---
 
@@ -90,10 +106,9 @@ npm install prefix-safe-json@next
 
 - Reproduce against current upstream before proposing a fix.
 - Prefer regression tests that fail on the old behavior.
-- Test at the real execution boundary when side effects are involved.
+- Test the real execution boundary when side effects are involved.
 - Compare patch failures against a clean baseline before calling them regressions.
-- Keep native fixes small when a dependency would add more complexity than value.
-- Keep security/reliability claims scoped to what the evidence proves.
+- Keep security and reliability claims scoped to what the evidence proves.
 - Fail closed where ambiguous state can trigger an irreversible action.
 
 ---
