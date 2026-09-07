@@ -1,8 +1,8 @@
 # Can Bilmez
 
-Backend and platform engineer focused on **reliable developer tooling, CI/CD, testing systems, and execution correctness**.
+Backend / platform-focused developer working on **reliable developer tooling, CI/CD, testing systems, and execution correctness**.
 
-I build and operate backend/full-stack systems in **Go, TypeScript, Python, FastAPI, PostgreSQL, and GitHub Actions**, and I contribute fixes upstream when I can reproduce a problem cleanly and prove the behavior with tests.
+I build backend and full-stack systems with **Go, TypeScript, Python, FastAPI, PostgreSQL, and GitHub Actions**, and I contribute fixes upstream when I can reproduce a problem cleanly and prove the behavior with tests.
 
 ## Featured open-source projects
 
@@ -41,7 +41,7 @@ A focused utility for preserving GitHub Actions run history before retention rem
 |---|---|---|
 | **Atomic Agent** | Closed malformed and ambiguously terminated native tool-call execution paths | **Merged upstream** in [AtomicBot-ai/atomic-agent#144](https://github.com/AtomicBot-ai/atomic-agent/pull/144) |
 | **Tugtainer** | Implemented configurable container update / rollback lifecycle hooks across backend, executor, persistence, UI, docs, and tests | **Merged upstream** in [Quenary/tugtainer#217](https://github.com/Quenary/tugtainer/pull/217) |
-| **Vercel AI SDK** | Reported unsafe automatic tool execution after unsafe terminal states | Fixes/backports merged; co-author credit on the resulting fix, including [vercel/ai#19066](https://github.com/vercel/ai/pull/19066) |
+| **Vercel AI SDK** | Reported unsafe automatic tool execution after unsafe terminal states | v5/v6/v7 fixes merged; all three merge commits carry `Co-authored-by: canblmz1` credit |
 | **Roomote** | Responsibly reported an unused environment endpoint that could expose raw environment configuration | Publicly acknowledged in [Roomote v0.39.1](https://github.com/RooCodeInc/Roomote/releases/tag/v0.39.1) |
 
 [**Verified contribution ledger →**](CONTRIBUTIONS.md)
@@ -60,11 +60,9 @@ The public portfolio is intentionally weighted toward work that can be inspected
 
 - **Node.js** — [nodejs/node#64954](https://github.com/nodejs/node/pull/64954): recursive `readdir` Buffer encoding behavior with regression coverage.
 - **Apache Maka** — [apache/maka#3434](https://github.com/apache/maka/pull/3434): tool execution gated on raw stream completion evidence.
-- **Trendyol Baklava** — [Trendyol/baklava#1220](https://github.com/Trendyol/baklava/pull/1220): resize-listener cleanup with regression coverage.
-- **Continue** — [continuedev/continue#13224](https://github.com/continuedev/continue/pull/13224): streamed tool-call handling work.
-- **Vercel AI SDK docs** — [vercel/ai#18770](https://github.com/vercel/ai/pull/18770): distinguish truncation from malformed JSON before repair in the cookbook flow.
+- **Continue** — [continuedev/continue#13224](https://github.com/continuedev/continue/pull/13224): provider-index correlation for interleaved streamed tool calls.
 
-Open PRs are listed as work in progress, not as merged contribution claims.
+The full ledger also tracks smaller open and closed-unmerged work. Open PRs are never presented as merged contributions.
 
 ---
 
