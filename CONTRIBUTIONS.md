@@ -20,7 +20,7 @@ The patch closes an execution-integrity failure mode in the native OpenAI-compat
 - AI SDK 6 backport: [vercel/ai#19120](https://github.com/vercel/ai/pull/19120)
 - AI SDK 5 backport: [vercel/ai#19121](https://github.com/vercel/ai/pull/19121)
 - v7 release: [`ai@7.0.70`](https://github.com/vercel/ai/releases/tag/ai%407.0.70)
-- Credit: `Co-authored-by: canblmz1` on the resulting fix commits
+- Credit: `Co-authored-by: canblmz1` appears on the merged v7, v6, and v5 fix commits.
 
 The report showed that side-effecting tool calls could auto-execute even when the enclosing model call ended with `length`, `error`, `content-filter`, or `other`. The resulting fixes use an explicit safe-finish-reason allowlist and defer streaming execution until the terminal finish reason is known.
 
@@ -67,7 +67,7 @@ These entries are intentionally listed as **open**, not as merged contributions.
 ### Continue
 
 - [continuedev/continue#13224](https://github.com/continuedev/continue/pull/13224)
-- Scope: streamed tool-call handling work.
+- Scope: correlate id-less interleaved OpenAI tool-call fragments by provider index.
 
 ### Vercel AI SDK documentation
 
